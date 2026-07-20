@@ -20,11 +20,25 @@ App móvil de uso diario para registrar ventas de un restaurante, con toma de pe
 - Historial de ventas y tarjetas de totales (hoy / semana)
 - Pedido por IA: texto o dictado -> `POST /ai/parse-order` -> carrito precargado
 
+## Estructura
+
+```
+src/
+  api/          cliente Axios (interceptor de token) y llamadas al backend
+  store/        estado global con Zustand (sesión persistida en SecureStore)
+  screens/      pantallas (Login, y placeholders de Productos/Ventas/Historial)
+  navigation/   stack + tabs (muestra Login o la app según haya sesión)
+  components/    componentes reutilizables
+```
+
 ## Cómo correr
 
 ```bash
 npm install
+cp .env.example .env    # ajustar EXPO_PUBLIC_API_URL a la URL del backend
 npx expo start
 ```
+
+> Emulador Android: usa `http://10.0.2.2:3000`. Dispositivo físico: la IP LAN de tu PC.
 
 Requiere el backend corriendo (ver README del backend).
