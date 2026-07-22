@@ -151,12 +151,16 @@ export default function ProductsScreen() {
             <TouchableOpacity
               style={styles.iconBtn}
               onPress={() => openEdit(item)}
+              accessibilityRole="button"
+              accessibilityLabel={`Editar ${item.name}`}
             >
               <Text style={styles.iconEdit}>Editar</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.iconBtn}
               onPress={() => confirmDelete(item)}
+              accessibilityRole="button"
+              accessibilityLabel={`Eliminar ${item.name}`}
             >
               <Text style={styles.iconDelete}>Eliminar</Text>
             </TouchableOpacity>
@@ -164,7 +168,12 @@ export default function ProductsScreen() {
         )}
       />
 
-      <TouchableOpacity style={styles.fab} onPress={openCreate}>
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={openCreate}
+        accessibilityRole="button"
+        accessibilityLabel="Crear producto"
+      >
         <Text style={styles.fabText}>+</Text>
       </TouchableOpacity>
 
@@ -228,7 +237,7 @@ function ProductFormModal({
     try {
       const payload = {
         name: trimmed,
-        price: Math.round(parsedPrice * 100) / 100,
+        price: Number(parsedPrice.toFixed(2)),
         categoryId,
         active,
       };
@@ -252,13 +261,14 @@ function ProductFormModal({
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <View style={styles.modalCard}>
-          <Text style={styles.modalTitle}>
+          <Text style={styles.modalTitle} accessibilityRole="header">
             {product ? 'Editar producto' : 'Nuevo producto'}
           </Text>
 
           <TextInput
             style={styles.input}
             placeholder="Nombre"
+            accessibilityLabel="Nombre del producto"
             value={name}
             onChangeText={setName}
             editable={!saving}
@@ -266,6 +276,7 @@ function ProductFormModal({
           <TextInput
             style={styles.input}
             placeholder="Precio"
+            accessibilityLabel="Precio del producto"
             keyboardType="decimal-pad"
             value={price}
             onChangeText={setPrice}
@@ -307,6 +318,8 @@ function ProductFormModal({
               style={[styles.btn, styles.btnGhost]}
               onPress={onClose}
               disabled={saving}
+              accessibilityRole="button"
+              accessibilityLabel="Cancelar"
             >
               <Text style={styles.btnGhostText}>Cancelar</Text>
             </TouchableOpacity>
@@ -314,6 +327,8 @@ function ProductFormModal({
               style={[styles.btn, styles.btnPrimary, saving && styles.btnDisabled]}
               onPress={onSubmit}
               disabled={saving}
+              accessibilityRole="button"
+              accessibilityLabel="Guardar producto"
             >
               {saving ? (
                 <ActivityIndicator color="#fff" />
