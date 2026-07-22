@@ -21,6 +21,13 @@ no el changelog. Para instalar/correr, ver `README.md`.
 - **Sesion persistida en SecureStore** (token + user). `hydrate` tolera JSON
   corrupto: si el user guardado no parsea, arranca sin sesion en vez de dejar la
   app trabada en el splash.
+- **Carrito de venta:** la lógica de mutación/total vive en `src/store/cart.logic.ts`
+  (funciones puras, sin Zustand ni RN) y `cart.store.ts` es solo el wrapper de
+  estado. Esto la hace testeable sin runner de RN: `cart.logic.test.ts` corre con
+  `npx tsx src/store/cart.logic.test.ts`. El **total del cliente es referencial**;
+  el monto autoritativo lo recalcula el backend con los precios de la BD al hacer
+  `POST /sales` (no se confía en el precio del cliente). Los `*.test.ts` se excluyen
+  del `tsconfig` para no arrastrar `@types/node` al bundle de la app.
 - **Marca:** naranja `#ea580c`. La app es **light-only** (`userInterfaceStyle: "light"`
   en `app.json`); no hay modo oscuro, asi que los hallazgos de theming/dark-mode
   no aplican mientras siga siendo light-only.
