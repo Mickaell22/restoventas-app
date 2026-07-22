@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1470 360" fill="none">
+  <!-- Lockup horizontal para el README / cabeceras: tile con la R + wordmark.
+       "Resto" en tinta, "Ventas" en naranja de marca. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fb8c3a"/>
+      <stop offset="1" stop-color="#e2530a"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(30 30) scale(0.293)">
+    <rect x="0" y="0" width="1024" height="1024" rx="230" fill="url(#bg)"/>
+    <g fill="#ffffff">
+      <rect x="352" y="300" width="118" height="424"/>
+      <path d="M464 300 A170 170 0 0 1 464 640 L464 528 A58 58 0 0 0 464 412 Z"/>
+      <path d="M452 508 L566 508 L680 724 L566 724 Z"/>
+    </g>
+  </g>
+  <text x="374" y="240" font-family="DejaVu Sans, Verdana, sans-serif" font-weight="800" font-size="140" letter-spacing="-4">
+    <tspan fill="#18181b">Resto</tspan><tspan fill="#ea580c">Ventas</tspan>
+  </text>
+</svg>
