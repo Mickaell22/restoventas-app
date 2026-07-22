@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ActivityIndicator, View } from 'react-native';
 import LoginScreen from '../screens/LoginScreen';
 import PlaceholderScreen from '../screens/PlaceholderScreen';
+import ProductsScreen from '../screens/ProductsScreen';
 import { useAuthStore } from '../store/auth.store';
 
 const Stack = createNativeStackNavigator();
@@ -11,9 +12,7 @@ const Tab = createBottomTabNavigator();
 function AppTabs() {
   return (
     <Tab.Navigator screenOptions={{ tabBarActiveTintColor: '#ea580c' }}>
-      <Tab.Screen name="Productos">
-        {() => <PlaceholderScreen title="Productos" />}
-      </Tab.Screen>
+      <Tab.Screen name="Productos" component={ProductsScreen} />
       <Tab.Screen name="Nueva venta">
         {() => <PlaceholderScreen title="Nueva venta" />}
       </Tab.Screen>
