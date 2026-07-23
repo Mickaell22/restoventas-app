@@ -1,25 +1,41 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ActivityIndicator, View } from 'react-native';
+import HistoryScreen from '../screens/HistoryScreen';
 import LoginScreen from '../screens/LoginScreen';
-import PlaceholderScreen from '../screens/PlaceholderScreen';
+import NewSaleScreen from '../screens/NewSaleScreen';
+import ProductsScreen from '../screens/ProductsScreen';
 import { useAuthStore } from '../store/auth.store';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+// Icono base por pestaña; el sufijo -outline se usa cuando no esta activa.
+const TAB_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
+  Productos: 'fast-food',
+  'Nueva venta': 'cart',
+  Historial: 'receipt',
+};
+
 function AppTabs() {
   return (
-    <Tab.Navigator screenOptions={{ tabBarActiveTintColor: '#ea580c' }}>
-      <Tab.Screen name="Productos">
-        {() => <PlaceholderScreen title="Productos" />}
-      </Tab.Screen>
-      <Tab.Screen name="Nueva venta">
-        {() => <PlaceholderScreen title="Nueva venta" />}
-      </Tab.Screen>
-      <Tab.Screen name="Historial">
-        {() => <PlaceholderScreen title="Historial" />}
-      </Tab.Screen>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarActiveTintColor: '#ea580c',
+        tabBarInactiveTintColor: '#71717a',
+        tabBarIcon: ({ color, size, focused }) => {
+          const base = TAB_ICONS[route.name] ?? 'ellipse';
+          const name = (
+            focused ? base : `${base}-outline`
+          ) as keyof typeof Ionicons.glyphMap;
+          return <Ionicons name={name} size={size} color={color} />;
+        },
+      })}
+    >
+      <Tab.Screen name="Productos" component={ProductsScreen} />
+      <Tab.Screen name="Nueva venta" component={NewSaleScreen} />
+      <Tab.Screen name="Historial" component={HistoryScreen} />
     </Tab.Navigator>
   );
 }

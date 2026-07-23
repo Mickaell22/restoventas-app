@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" fill="none">
+  <!-- Monograma R de RestoVentas. Construccion geometrica: asta + panza
+       semicircular hueca + pierna diagonal. fill="currentColor" para reusar
+       en blanco (icono) o naranja (wordmark) sin duplicar el path. -->
+  <g fill="#ffffff">
+    <!-- asta vertical -->
+    <rect x="352" y="300" width="112" height="424" rx="10"/>
+    <!-- panza (anillo semicircular derecho, hueco) -->
+    <path d="M464 300 A170 170 0 0 1 464 640 L464 528 A58 58 0 0 0 464 412 Z"/>
+    <!-- pierna diagonal -->
+    <path d="M470 500 L582 500 L672 724 L560 724 Z"/>
+  </g>
+</svg>

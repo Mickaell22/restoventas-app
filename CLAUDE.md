@@ -1,1 +1,54 @@
 @AGENTS.md
+
+# RestoVentas — App movil (CLAUDE.md)
+
+App Expo (React Native) + TypeScript, SDK 57. Consume el backend NestJS
+(repo `restoventas-backend`). Aca van decisiones e invariantes (el "por que"),
+no el changelog. Para instalar/correr, ver `README.md`.
+
+## Stack y estructura
+- Navegacion: React Navigation (stack de auth + bottom tabs). `src/navigation/RootNavigator.tsx`.
+- Estado: Zustand. Sesion en `src/store/auth.store.ts`.
+- HTTP: Axios centralizado en `src/api/client.ts`.
+- Carpetas: `src/screens`, `src/api`, `src/store`, `src/navigation`.
+
+## Decisiones / gotchas
+- **Cliente API unico** (`src/api/client.ts`): un interceptor adjunta el JWT a
+  cada request y, ante un 401, limpia la sesion (logout). `baseURL` viene de
+  `EXPO_PUBLIC_API_URL`. No crear instancias de Axios sueltas.
+- **`EXPO_PUBLIC_*` se inyecta en tiempo de bundle de Metro.** Cambiar el `.env`
+  NO se refleja con Fast Refresh: hay que reiniciar Metro con `expo start -c`.
+- **Sesion persistida en SecureStore** (token + user). `hydrate` tolera JSON
+  corrupto: si el user guardado no parsea, arranca sin sesion en vez de dejar la
+  app trabada en el splash.
+- **Carrito de venta:** la lógica de mutación/total vive en `src/store/cart.logic.ts`
+  (funciones puras, sin Zustand ni RN) y `cart.store.ts` es solo el wrapper de
+  estado. Esto la hace testeable sin runner de RN: `cart.logic.test.ts` corre con
+  `npx tsx src/store/cart.logic.test.ts`. El **total del cliente es referencial**;
+  el monto autoritativo lo recalcula el backend con los precios de la BD al hacer
+  `POST /sales` (no se confía en el precio del cliente). Los `*.test.ts` se excluyen
+  del `tsconfig` para no arrastrar `@types/node` al bundle de la app.
+- **Rangos de fecha del historial** (`src/lib/date-range.ts`): se calculan en la
+  zona del telefono y se mandan como instantes ISO; el backend los compara contra
+  `sales.created_at`, que es `timestamptz`. "Semana" = semana calendario desde el
+  lunes, no los ultimos 7 dias. Self-check: `npx tsx src/lib/date-range.test.ts`.
+- **El historial recarga con `useFocusEffect`, no solo al montar:** las tabs no se
+  desmontan, asi que sin eso una venta registrada en "Nueva venta" no aparecia al
+  volver a Historial. La recarga por foco es silenciosa (no muestra el spinner
+  fullscreen) para no parpadear en cada cambio de pestaña.
+- **Marca:** naranja `#ea580c`. La app es **light-only** (`userInterfaceStyle: "light"`
+  en `app.json`); no hay modo oscuro, asi que los hallazgos de theming/dark-mode
+  no aplican mientras siga siendo light-only.
+- **Iconos:** `@expo/vector-icons` con **import directo** por set
+  (`import Ionicons from '@expo/vector-icons/Ionicons'`) para no arrastrar el
+  barrel completo.
+- **Logo:** las fuentes vectoriales editables estan en `assets/logo/*.svg`; los
+  PNG de la app (icon, adaptive, splash, favicon) se regeneran con `rsvg-convert`.
+
+## Probar en el telefono (ver tambien AGENTS.md)
+- **Por WiFi (preferido, sin cable):** poner `EXPO_PUBLIC_API_URL=http://<IP_LAN_PC>:3000`
+  en `.env`, correr `expo start` (SIN `--android`) y en Expo Go abrir manualmente
+  `exp://<IP_LAN_PC>:8081`. El telefono y la PC deben estar en la misma WiFi y la
+  PC corriendo Metro + backend. Fast Refresh actualiza los cambios de codigo solo.
+- **SDK 57 exige Expo Go 57** (no el de Play Store, que puede ir atrasado).
+- App 100% standalone (sin PC) = EAS Build + backend desplegado; pendiente Dia 7.

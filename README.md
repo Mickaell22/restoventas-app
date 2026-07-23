@@ -26,9 +26,17 @@ App móvil de uso diario para registrar ventas de un restaurante, con toma de pe
 src/
   api/          cliente Axios (interceptor de token) y llamadas al backend
   store/        estado global con Zustand (sesión persistida en SecureStore)
-  screens/      pantallas (Login, y placeholders de Productos/Ventas/Historial)
+  screens/      pantallas (Login, Productos, Nueva venta, Historial)
   navigation/   stack + tabs (muestra Login o la app según haya sesión)
-  components/    componentes reutilizables
+  components/   componentes reutilizables
+  lib/          lógica pura reutilizable (rangos de fecha) con su self-check
+```
+
+Los self-checks de la lógica pura corren sin framework:
+
+```bash
+npx tsx src/store/cart.logic.test.ts
+npx tsx src/lib/date-range.test.ts
 ```
 
 ## Cómo correr

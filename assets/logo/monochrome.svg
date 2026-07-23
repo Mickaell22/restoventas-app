@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" fill="none">
+  <!-- Capa monocroma (temas de Android 13+): la silueta de la R en un solo
+       color; el sistema la tiñe. Misma escala/posicion que foreground. -->
+  <g fill="#ffffff" transform="translate(512 512) scale(0.82) translate(-516 -512)">
+    <rect x="352" y="300" width="118" height="424"/>
+    <path d="M464 300 A170 170 0 0 1 464 640 L464 528 A58 58 0 0 0 464 412 Z"/>
+    <path d="M452 508 L566 508 L680 724 L566 724 Z"/>
+  </g>
+</svg>

@@ -31,11 +31,15 @@ export const useAuthStore = create<AuthState>((set) => ({
       SecureStore.getItemAsync(TOKEN_KEY),
       SecureStore.getItemAsync(USER_KEY),
     ]);
-    set({
-      token: token ?? null,
-      user: userRaw ? (JSON.parse(userRaw) as AuthUser) : null,
-      hydrated: true,
-    });
+    let user: AuthUser | null = null;
+    try {
+      user = userRaw ? (JSON.parse(userRaw) as AuthUser) : null;
+    } catch {
+      // Si el user persistido quedo corrupto, arrancamos sin sesion en vez de
+      // dejar la app trabada en el splash (hydrated nunca pasaria a true).
+      user = null;
+    }
+    set({ token: token ?? null, user, hydrated: true });
   },
 
   setSession: async (token, user) => {
