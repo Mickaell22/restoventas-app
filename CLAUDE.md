@@ -28,6 +28,14 @@ no el changelog. Para instalar/correr, ver `README.md`.
   el monto autoritativo lo recalcula el backend con los precios de la BD al hacer
   `POST /sales` (no se confía en el precio del cliente). Los `*.test.ts` se excluyen
   del `tsconfig` para no arrastrar `@types/node` al bundle de la app.
+- **Rangos de fecha del historial** (`src/lib/date-range.ts`): se calculan en la
+  zona del telefono y se mandan como instantes ISO; el backend los compara contra
+  `sales.created_at`, que es `timestamptz`. "Semana" = semana calendario desde el
+  lunes, no los ultimos 7 dias. Self-check: `npx tsx src/lib/date-range.test.ts`.
+- **El historial recarga con `useFocusEffect`, no solo al montar:** las tabs no se
+  desmontan, asi que sin eso una venta registrada en "Nueva venta" no aparecia al
+  volver a Historial. La recarga por foco es silenciosa (no muestra el spinner
+  fullscreen) para no parpadear en cada cambio de pestaña.
 - **Marca:** naranja `#ea580c`. La app es **light-only** (`userInterfaceStyle: "light"`
   en `app.json`); no hay modo oscuro, asi que los hallazgos de theming/dark-mode
   no aplican mientras siga siendo light-only.

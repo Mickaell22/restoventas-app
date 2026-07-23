@@ -2,9 +2,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ActivityIndicator, View } from 'react-native';
+import HistoryScreen from '../screens/HistoryScreen';
 import LoginScreen from '../screens/LoginScreen';
 import NewSaleScreen from '../screens/NewSaleScreen';
-import PlaceholderScreen from '../screens/PlaceholderScreen';
 import ProductsScreen from '../screens/ProductsScreen';
 import { useAuthStore } from '../store/auth.store';
 
@@ -17,10 +17,6 @@ const TAB_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
   'Nueva venta': 'cart',
   Historial: 'receipt',
 };
-
-// Placeholder temporal (se reemplaza en el dia 4). Definido a nivel de modulo
-// para que la Tab no lo remonte en cada render del navegador.
-const HistorialScreen = () => <PlaceholderScreen title="Historial" />;
 
 function AppTabs() {
   return (
@@ -39,7 +35,7 @@ function AppTabs() {
     >
       <Tab.Screen name="Productos" component={ProductsScreen} />
       <Tab.Screen name="Nueva venta" component={NewSaleScreen} />
-      <Tab.Screen name="Historial" component={HistorialScreen} />
+      <Tab.Screen name="Historial" component={HistoryScreen} />
     </Tab.Navigator>
   );
 }
